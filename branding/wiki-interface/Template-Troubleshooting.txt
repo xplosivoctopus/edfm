@@ -1,0 +1,12 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-warning">'''Troubleshooting'''
+{{{1}}}
+</div><noinclude>
+== Usage ==
+<pre>
+{{Troubleshooting|
+; Symptom
+: Fix
+}}
+</pre>
+[[Category:Templates]]
+</noinclude>

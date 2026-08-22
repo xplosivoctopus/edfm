@@ -1,0 +1,5 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-warning">'''Historical notice:''' This article describes something from a past state of the game and may no longer be accurate for current play. {{{1|}}}</div><noinclude>
+== Usage ==
+<pre>{{Historical warning|optional extra context}}</pre>
+[[Category:Templates]]
+</noinclude>

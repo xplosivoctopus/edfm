@@ -1,0 +1,41 @@
+<div class="edfm-infobox">
+<div class="edfm-infobox-title">{{{name|{{PAGENAME}}}}}</div>{{#if:{{{image|}}}|
+<div class="edfm-infobox-image">[[File:{{{image}}}|220px]]</div>}}{{#if:{{{row1|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label1|}}}</div><div class="edfm-infobox-value">{{{row1|}}}</div></div>}}{{#if:{{{row2|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label2|}}}</div><div class="edfm-infobox-value">{{{row2|}}}</div></div>}}{{#if:{{{row3|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label3|}}}</div><div class="edfm-infobox-value">{{{row3|}}}</div></div>}}{{#if:{{{row4|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label4|}}}</div><div class="edfm-infobox-value">{{{row4|}}}</div></div>}}{{#if:{{{row5|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label5|}}}</div><div class="edfm-infobox-value">{{{row5|}}}</div></div>}}{{#if:{{{row6|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label6|}}}</div><div class="edfm-infobox-value">{{{row6|}}}</div></div>}}{{#if:{{{row7|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label7|}}}</div><div class="edfm-infobox-value">{{{row7|}}}</div></div>}}{{#if:{{{row8|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label8|}}}</div><div class="edfm-infobox-value">{{{row8|}}}</div></div>}}{{#if:{{{row9|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label9|}}}</div><div class="edfm-infobox-value">{{{row9|}}}</div></div>}}{{#if:{{{row10|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label10|}}}</div><div class="edfm-infobox-value">{{{row10|}}}</div></div>}}{{#if:{{{row11|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label11|}}}</div><div class="edfm-infobox-value">{{{row11|}}}</div></div>}}{{#if:{{{row12|}}}|
+<div class="edfm-infobox-row"><div class="edfm-infobox-label">{{{label12|}}}</div><div class="edfm-infobox-value">{{{row12|}}}</div></div>}}
+</div><noinclude>
+== Usage ==
+A generic, right-floated reference infobox — styling lives in
+[[MediaWiki:Common.css]] (<code>.edfm-infobox</code>), not inline, so it
+stays consistent and easy to retheme later.
+
+<pre>
+{{Infobox
+ |name = Display title (defaults to the page name)
+ |image = Filename.png (optional)
+ |label1 = Type     |row1 = Multipurpose
+ |label2 = Manufacturer |row2 = ...
+ |label3 = ...      |row3 = ...
+}}
+</pre>
+
+Up to 12 label/row pairs (extended 2026-08-07 for the Engineer infobox,
+which needs around 10 — see [[Elite Dangerous Field Manual:Engineering
+Architecture]]). No matching CSS change was needed to extend this: the
+<code>.edfm-infobox-row</code> class in Common.css isn't numbered per-row,
+so any number of rows renders correctly with the existing styles. If a
+future article genuinely needs more than 12, add further
+<code>rowN</code>/<code>labelN</code> pairs here the same way.
+
+[[Category:Templates]]
+</noinclude>

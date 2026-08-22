@@ -1,0 +1,33 @@
+# Secrets / credentials
+*.env
+.env
+*secret*
+*secrets*
+*credential*
+*credentials*
+*token*
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# Live MediaWiki / database / backups / logs
+LocalSettings.php
+backups/
+dumps/
+logs/
+*.log
+*.sql
+*.sql.gz
+*.tar.gz
+*.zip
+restore-staging/
+images/
+cache/
+
+# Editor/OS noise
+.DS_Store
+*.swp
+*~
+__pycache__/
+*.pyc

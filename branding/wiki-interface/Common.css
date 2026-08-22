@@ -1,0 +1,1306 @@
+/* ==========================================================================
+   EDFM site-wide styling -- "Elite Dangerous technical field manual" theme.
+   Original CSS written for this project -- no code or assets copied from
+   runescape.wiki, Elite Dangerous, or any other site/game, and no Frontier
+   logo/branding/proprietary fonts/copied HUD elements. Restrained visual
+   influence only: dark industrial surfaces, subtle angular geometry,
+   orange/cyan accents used sparingly, information hierarchy first. This is
+   a reference site, not a HUD -- no glow, no neon, no glassmorphism, no
+   constant animation.
+
+   SKIN NOTE: the site uses Vector "legacy" (2011), not Vector 2022 -- see
+   the "Why Vector legacy" note in docs/content-style-guide.md (Vector 2022
+   hard-restricts its pinned sidebar to logged-in users; legacy has no such
+   restriction). Several rules below exist specifically to beat core Vector
+   legacy/mediawiki.skinning selectors that are *more specific* than a naive
+   override would be (documented inline at each occurrence) -- this isn't
+   guesswork, each one was found by reading the actual core .less source and
+   confirmed with a real rendered screenshot, not just computed-style checks
+   (:visited colours in particular are invisible to getComputedStyle by
+   design -- see the tab-bar note below).
+
+   2026-08-07 SECOND PASS: the first redesign pass was judged too close to
+   stock MediaWiki with a colour change -- this pass changes the actual
+   visual composition (centred workspace instead of a huge dead gutter,
+   a two-tier header, a real masthead, a tile-grid TOC, a restructured
+   status module, larger deliberate type scale, depth via surface
+   elevation instead of borders-around-everything) while reusing every
+   working mechanism from the first pass rather than throwing it away --
+   the tab/:visited fix, the external-link specificity fix, the mobile
+   reorder fix, and focus-visible/reduced-motion are all still here,
+   unchanged in mechanism.
+   ========================================================================== */
+
+/* ==========================================================================
+   1. DESIGN TOKENS
+   ========================================================================== */
+:root {
+	/* Depth system: site (outermost, visible in the sidebar/header/gutters)
+	   -> article surface -> component surfaces, each a deliberate step
+	   brighter so the page reads as having actual depth rather than "one
+	   background colour with slightly lighter boxes everywhere". */
+	--edfm-bg-deep: #07090b;
+	--edfm-bg-page: #0a0e11;
+	--edfm-surface-1: #10171b;
+	--edfm-surface-2: #161f24;
+	--edfm-surface-3: #1c272d;
+	--edfm-surface-4: #233037;
+
+	--edfm-border: #26333b;
+	--edfm-border-soft: rgba( 255, 255, 255, 0.06 );
+
+	--edfm-text: #edf0f2;
+	--edfm-text-muted: #98a5ad;
+	--edfm-text-dim: #6c7a82;
+
+	/* Accents -- orange is reserved for navigation/selection/emphasis/
+	   section numbering; cyan/blue are for links, verification info, and
+	   secondary interface elements. See "Links" and "Colour system" in
+	   docs/content-style-guide.md for the reasoning. */
+	--edfm-orange: #ff8a00;
+	--edfm-orange-bright: #ffa21a;
+	--edfm-cyan: #42c7d9;
+	--edfm-blue: #4f9fe8;
+
+	/* Derived link colours */
+	--edfm-link: var( --edfm-blue );
+	--edfm-link-visited: #3f7bb3;
+	--edfm-link-hover: #8cc4f7;
+	--edfm-link-external: var( --edfm-cyan );
+	--edfm-link-external-visited: #2f8f9c;
+	--edfm-link-external-hover: #7fe0ec;
+	--edfm-link-new: #e07a7a;
+
+	/* Status semantics (article metadata module) -- text label always
+	   present too, never colour-only. */
+	--edfm-status-positive: var( --edfm-cyan );
+	--edfm-status-attention: var( --edfm-orange );
+	--edfm-status-neutral: var( --edfm-text-dim );
+	--edfm-status-positive-bg: rgba( 66, 199, 217, 0.12 );
+	--edfm-status-attention-bg: rgba( 255, 138, 0, 0.12 );
+	--edfm-status-neutral-bg: rgba( 108, 122, 130, 0.12 );
+
+	/* Typography -- explicit desktop scale (2026-08-07 pass 2). Sized in
+	   rem against the root's real 16px (Vector legacy's own
+	   @font-size-root is 100%, i.e. browser default -- confirmed by
+	   reading skins.vector.styles.legacy/variables.less, not assumed)
+	   rather than nested em, specifically so component sizes can't
+	   compound smaller than intended inside whatever ambient size an
+	   ancestor happens to set. */
+	--edfm-fs-title: clamp( 1.9rem, 1.4rem + 2vw, 2.25rem ); /* ~30-36px */
+	--edfm-fs-h2: 1.35rem; /* ~21.6px */
+	--edfm-fs-h3: 1.15rem; /* ~18.4px */
+	--edfm-fs-body: 1rem; /* 16px */
+	--edfm-fs-resource-name: 1.1rem; /* ~17.6px */
+	--edfm-fs-meta: 0.8rem; /* ~12.8px */
+	--edfm-fs-sidebar: 0.9375rem; /* 15px -- polish pass: +1px for readability */
+	--edfm-fs-utility: 0.72rem; /* ~11.5px */
+
+	--edfm-mono: 'JetBrains Mono', 'Fira Code', Consolas, 'SF Mono', Menlo, 'Courier New', monospace;
+	--edfm-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+	/* Legacy aliases: earlier revisions of this stylesheet used these names
+	   directly and some inline template output/older docs may still refer
+	   to them; keep pointing at the current tokens rather than duplicate
+	   values that could drift out of sync. */
+	--edfm-orange-hover: var( --edfm-orange-bright );
+	--edfm-orange-active: var( --edfm-orange-bright );
+	--color-progressive: var( --edfm-orange );
+	--color-progressive--hover: var( --edfm-orange-bright );
+	--color-progressive--active: var( --edfm-orange-bright );
+	--color-progressive--focus: var( --edfm-orange );
+	--background-color-progressive: var( --edfm-orange );
+	--background-color-progressive--hover: var( --edfm-orange-bright );
+	--background-color-progressive--active: var( --edfm-orange-bright );
+	--border-color-progressive: var( --edfm-orange );
+	--border-color-progressive--hover: var( --edfm-orange-bright );
+	--border-color-progressive--active: var( --edfm-orange-bright );
+
+	/* Geometry / layout */
+	--edfm-corner: 10px;
+	/* Polish-pass bump from 1280px -- article read as slightly too narrow
+	   on large desktop displays, and future reference tables (engineering,
+	   ship stats, colonisation data) will want the room. Still centred
+	   within the workspace via --edfm-gutter below, not stretched
+	   edge-to-edge. */
+	--edfm-content-max: 1320px;
+	/* Vector legacy clears its fixed sidebar with `margin-left: 11em` at
+	   >=982px (skins.vector.styles.legacy/layouts/screen.less) -- reused
+	   here, not reinvented, so the centring maths below lines up exactly
+	   with where the sidebar actually ends. */
+	--edfm-sidebar-clear: 11em;
+	/* The gutter is whatever's left of the workspace (viewport minus the
+	   sidebar) after the capped content width, split evenly, never
+	   negative. On a screen too narrow to fit sidebar+content-max, this
+	   collapses to 0 and content just fills the workspace edge-to-edge --
+	   see "GLOBAL LAYOUT" below for the full explanation. */
+	--edfm-gutter: max( 0px, calc( ( 100vw - var( --edfm-sidebar-clear ) - var( --edfm-content-max ) ) / 2 ) );
+}
+
+/* ==========================================================================
+   2. BASE / RESET-ADJACENT
+   ========================================================================== */
+html, body {
+	background-color: var( --edfm-bg-page );
+	color: var( --edfm-text );
+}
+body.mediawiki {
+	color: var( --edfm-text );
+	font-family: var( --edfm-sans );
+	font-size: var( --edfm-fs-body );
+}
+/* Background treatment: a faint technical grid plus a very soft radial
+   glow centred behind the (now centred) content column, so the composition
+   still has quiet visual interest in the gutters on ultrawide screens
+   instead of just flat colour -- both stay under ~3% opacity, this is
+   texture, not a HUD. Not image assets; pure CSS gradients. */
+body {
+	background-image:
+		radial-gradient( ellipse 1400px 900px at 50% 0%, rgba( 66, 199, 217, 0.05 ), transparent 60% ),
+		linear-gradient( rgba( 255, 255, 255, 0.025 ) 1px, transparent 1px ),
+		linear-gradient( 90deg, rgba( 255, 255, 255, 0.025 ) 1px, transparent 1px );
+	background-size: auto, 48px 48px, 48px 48px;
+	background-repeat: no-repeat, repeat, repeat;
+	background-attachment: fixed, scroll, scroll;
+}
+@media ( prefers-reduced-motion: reduce ) {
+	*, *::before, *::after {
+		animation-duration: 0.001ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.001ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+/* Focus visibility: applies to every interactive element, not just links. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+	outline: 2px solid var( --edfm-cyan );
+	outline-offset: 2px;
+}
+
+/* Small reusable angular motif: a corner-cut bracket, used sparingly (see
+   the redesign notes in docs/content-style-guide.md for exactly where) --
+   deliberately not applied everywhere. */
+.edfm-corner-cut {
+	clip-path: polygon( 0 0, calc( 100% - var( --edfm-corner ) ) 0, 100% var( --edfm-corner ), 100% 100%, 0 100% );
+}
+
+/* ==========================================================================
+   3. TYPOGRAPHY
+   ========================================================================== */
+h1, h2, h3, h4, h5, h6 {
+	color: var( --edfm-text );
+	border-color: var( --edfm-border );
+}
+/* !important justified here: MediaWiki core's mediawiki.skinning module
+   sets heading colour with equal-specificity plain-tag selectors and kept
+   winning in testing despite this stylesheet loading later -- rather than
+   keep chasing exact cascade/bundling order, force it. This is a
+   correctness/contrast fix, not decoration. */
+.mw-body h1, .mw-body h2, .mw-body h3, .mw-body h4, .mw-body h5, .mw-body h6,
+.mw-heading1, .mw-heading2, .mw-heading3, .mw-heading4, .mw-heading5, .mw-heading6,
+h1, h2, h3, h4, h5, h6 {
+	color: var( --edfm-text ) !important;
+	border-color: var( --edfm-border ) !important;
+	font-family: var( --edfm-mono );
+	letter-spacing: 0.01em;
+	line-height: 1.3;
+}
+#firstHeading {
+	color: var( --edfm-text ) !important;
+	font-family: var( --edfm-mono );
+	font-size: var( --edfm-fs-title );
+	font-weight: 700;
+	margin-top: 0.15em;
+}
+/* Section headings (h2): "// " prefix in orange, bright heading text, a
+   short orange accent segment over the dim full-width divider core
+   already draws. Substantially more vertical space than a wiki section
+   normally gets, per the "sections feel packed together" fix -- 3.25rem
+   (~52px) above, ~1.1rem gap to the first content component below. If a
+   heading opts into explicit numbering via {{Section number}}, the
+   automatic "// " is suppressed so the two treatments don't double up. */
+.mw-body h2 {
+	position: relative;
+	padding-bottom: 0.4em;
+	margin-top: 3.25rem;
+	margin-bottom: 1.1rem;
+	font-size: var( --edfm-fs-h2 );
+}
+.mw-body h2::before {
+	content: '// ';
+	color: var( --edfm-orange );
+	font-weight: 400;
+}
+.mw-body h2:has( .edfm-section-number )::before {
+	content: none;
+}
+.mw-body h2::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: -1px;
+	width: 3em;
+	max-width: 100%;
+	height: 2px;
+	background: var( --edfm-orange );
+}
+.edfm-section-number {
+	color: var( --edfm-orange );
+	font-weight: 700;
+}
+.edfm-section-sep {
+	color: var( --edfm-orange );
+	margin-right: 0.15em;
+}
+h3, h4 {
+	color: var( --edfm-text );
+	font-size: var( --edfm-fs-h3 );
+}
+h3::before {
+	content: '/ ';
+	color: var( --edfm-text-dim );
+	font-weight: 400;
+}
+
+/* Body text: readable sans-serif, deliberately NOT monospace -- long-form
+   reading in monospace hurts readability, which stays a hard requirement
+   even with a more technical visual language elsewhere. */
+.mw-body p,
+.mw-body li,
+.mw-body dd {
+	line-height: 1.7;
+	font-size: var( --edfm-fs-body );
+}
+.mw-body p {
+	margin: 0 0 1.1em 0;
+	max-width: 46em; /* comfortable reading measure, not the full column */
+}
+.mw-body ul,
+.mw-body ol {
+	line-height: 1.7;
+	margin-bottom: 1.1em;
+}
+/* MW 1.46 wraps headings in a `.mw-heading2`/`.mw-heading3` div, so the
+   sibling that immediately follows is that wrapper, not the `h2`/`h3`
+   itself -- matching both forms since a page could still have a bare
+   heading in edge cases (e.g. content generated without the wrapper). */
+.mw-heading2 + p, .mw-body h2 + p,
+.mw-heading3 + p, .mw-body h3 + p,
+.mw-heading2 + div, .mw-body h2 + div,
+.mw-heading3 + div, .mw-body h3 + div {
+	margin-top: 0;
+}
+hr {
+	background-color: var( --edfm-border );
+	border-color: var( --edfm-border );
+}
+
+/* Quiet, discoverable section-edit controls (logged-in editors only --
+   MediaWiki only renders these for users who can edit). Keeping the
+   functionality/keyboard access intact while making sure they don't
+   compete visually with the heading they're attached to: low opacity at
+   rest, full opacity on hover/focus of the heading OR the control itself,
+   brackets hidden (the opacity+letter-spacing treatment already reads as
+   a distinct control without them). */
+.mw-editsection {
+	margin-left: 1em;
+	font-family: var( --edfm-mono );
+	font-size: var( --edfm-fs-utility ) !important;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	opacity: 0.45;
+	transition: opacity 0.15s ease;
+}
+.mw-heading:hover .mw-editsection,
+.mw-heading:focus-within .mw-editsection,
+.mw-editsection:hover,
+.mw-editsection:focus-within {
+	opacity: 1;
+}
+.mw-editsection a {
+	color: var( --edfm-text-dim );
+}
+.mw-editsection a:hover,
+.mw-editsection a:focus-visible {
+	color: var( --edfm-cyan );
+}
+.mw-editsection-bracket {
+	display: none;
+}
+.mw-editsection-divider {
+	color: var( --edfm-text-dim );
+	margin: 0 0.3em;
+}
+
+/* ==========================================================================
+   8. LINKS
+   ========================================================================== */
+a { color: var( --edfm-link ); transition: color 0.1s ease; }
+a:visited { color: var( --edfm-link-visited ); }
+a:hover { color: var( --edfm-link-hover ); }
+a.new, .new a { color: var( --edfm-link-new ); }
+a.external { color: var( --edfm-link-external ); }
+/* Core MediaWiki ships `.mw-parser-output a.external`/`a.extiw` (and their
+   :visited/:hover states) at higher specificity (two classes + a tag) than
+   a plain `a.external` rule (one class + a tag), so the line above never
+   actually wins for real article links on its own -- the same underlying
+   "core selector outranks a naive theme override" gotcha as the tab
+   :visited fix further down. Matching the same selector shape here (this
+   stylesheet loads after core skin styles) is what actually applies our
+   colour to external links in article content. */
+.mw-parser-output a.external,
+.mw-parser-output a.extiw {
+	color: var( --edfm-link-external );
+}
+.mw-parser-output a.external:visited,
+.mw-parser-output a.extiw:visited {
+	color: var( --edfm-link-external-visited );
+}
+.mw-parser-output a.external:hover,
+.mw-parser-output a.extiw:hover {
+	color: var( --edfm-link-external-hover );
+}
+.mw-footer a {
+	color: var( --edfm-link );
+}
+.mw-footer a:hover {
+	color: var( --edfm-link-hover );
+}
+
+/* ==========================================================================
+   1. GLOBAL LAYOUT -- centred workspace
+   ========================================================================== */
+/* THE fix for "enormous unused region on the right side of wide displays".
+   Vector legacy's core layout (skins.vector.styles.legacy/layouts/
+   screen.less) gives `.mw-body` (#content) a left margin to clear the
+   fixed-width sidebar and otherwise lets it run edge-to-edge to the
+   browser's right side with no max-width at all -- the first redesign
+   pass added a max-width but left the column pinned to the sidebar's left
+   edge, which is *why* it still read as "a column stuck on the left with
+   dead space on the right" rather than a composed layout.
+
+   Fix: instead of a fixed `margin-left: 11em`, compute how much space is
+   left over in the workspace (viewport minus the sidebar) once the
+   content has its max-width, and split that leftover evenly between the
+   left and right margins (via the --edfm-gutter token above) -- so the
+   article is centred *within the workspace to the right of the sidebar*,
+   not centred in the full viewport (which would ignore the sidebar and
+   look off-centre) and not pinned to its left edge either. On a screen
+   too narrow for sidebar + max-width content, --edfm-gutter naturally
+   evaluates to 0 and this degrades to the old "fill the workspace"
+   behaviour -- no separate narrow-screen override needed.
+
+   The header/tab bar's own float/absolute-position box (#mw-head) is left
+   at its native full width deliberately -- rewriting *that* mechanism is
+   a different, much higher-risk change (it took several rounds to get
+   right originally) -- but its *contents* (search box, personal tools,
+   namespace/view tabs) get their own right/left offsets pulled in by the
+   same --edfm-gutter below, so they still visually line up with the
+   centred column beneath them instead of hugging the browser edge. */
+.mw-body,
+#mw-data-after-content,
+.mw-footer {
+	margin-left: calc( var( --edfm-sidebar-clear ) + var( --edfm-gutter ) );
+	margin-right: var( --edfm-gutter );
+	max-width: var( --edfm-content-max );
+	box-sizing: border-box;
+}
+/* Tables, code blocks, and preformatted content are still allowed to be
+   wider than a comfortable reading measure (technical data often needs
+   it) -- they scroll horizontally inside the capped column instead of
+   being force-shrunk or breaking the layout. Ordinary images/galleries
+   already respect the column via max-width:100% below. */
+.mw-body table,
+.mw-body pre,
+.mw-body .mw-code {
+	max-width: 100%;
+	overflow-x: auto;
+}
+.mw-body table.wikitable,
+.mw-body table.mw-datatable {
+	display: block;
+	overflow-x: auto;
+}
+.mw-body table.wikitable tbody,
+.mw-body table.mw-datatable tbody {
+	display: table;
+	width: 100%;
+}
+.mw-body img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* ==========================================================================
+   4. ARTICLE MASTHEAD (eyebrow / title / deck)
+   ========================================================================== */
+/* Eyebrow line is authored as ordinary wikitext (see Template:Article
+   header) and, purely as a placement detail, a small script
+   (MediaWiki:Common.js) moves it directly above #firstHeading on load --
+   see the comment there for why that needs JS rather than CSS/a template
+   (the title is rendered by the skin before the article body in the DOM,
+   so nothing living inside the article body can appear earlier than it
+   without either moving it in the DOM or abandoning the real semantic H1).
+   If JS is unavailable the eyebrow still renders, just directly under the
+   title instead of above it.
+
+   The eyebrow/title/deck aren't wrapped in one literal bounding box (they
+   live at two different DOM depths -- eyebrow is a sibling of #firstHeading,
+   deck is inside the article body further down -- wrapping them in one
+   real container would need heavier JS than is justified here), so the
+   "designed masthead" read comes from a matching top rule above the
+   eyebrow and bottom rule below the deck, a small angular marker, and the
+   larger title/subtitle type scale, rather than one drawn box. */
+.edfm-eyebrow {
+	display: flex;
+	align-items: center;
+	gap: 0.55em;
+	margin: 0 0 0.5em 0;
+	padding-top: 1.1em;
+	border-top: 1px solid var( --edfm-border );
+	font-family: var( --edfm-mono );
+	font-size: var( --edfm-fs-meta );
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var( --edfm-text-dim );
+}
+.edfm-eyebrow::before {
+	content: '';
+	width: 8px;
+	height: 8px;
+	flex-shrink: 0;
+	background: var( --edfm-orange );
+	clip-path: polygon( 0 0, 100% 0, 100% 65%, 65% 100%, 0 100% );
+}
+.edfm-eyebrow .edfm-orange-mark {
+	color: var( --edfm-orange );
+}
+.edfm-deck {
+	color: var( --edfm-text-muted );
+	font-size: 1.1rem;
+	line-height: 1.55;
+	max-width: 42em;
+	margin: 0.5em 0 1.7em 0;
+	padding-bottom: 1.6em;
+	border-bottom: 1px solid var( --edfm-border );
+}
+
+/* ==========================================================================
+   1. SIDEBAR
+   ========================================================================== */
+#mw-panel {
+	background-color: var( --edfm-bg-deep );
+}
+/* Logo anchors the sidebar visually -- a rule beneath it separates
+   "identity" from "navigation" instead of the nav groups just starting
+   immediately under the logo with no break. */
+#p-logo {
+	padding-bottom: 1.1rem;
+	margin-bottom: 0.9rem;
+	border-bottom: 1px solid var( --edfm-border );
+}
+/* Each nav group gets real breathing room from the one before it instead
+   of being packed together like a stock wiki sidebar. */
+#mw-panel .portal {
+	margin-top: 1.7rem;
+}
+#mw-panel .portal:first-of-type {
+	margin-top: 0;
+}
+#mw-panel .portal .body,
+#mw-panel .portal ul {
+	border-color: var( --edfm-border-soft );
+}
+#mw-panel .portal a {
+	color: var( --edfm-text-muted );
+	display: block;
+	font-size: var( --edfm-fs-sidebar );
+	line-height: 1.4;
+	padding: 0.4em 0.5em;
+	margin: 0.1em -0.5em;
+	border-left: 2px solid transparent;
+	border-radius: 0;
+}
+#mw-panel .portal a:hover {
+	color: var( --edfm-cyan );
+	background: var( --edfm-surface-1 );
+}
+/* "You are here" -- MediaWiki's sidebar has no built-in current-page
+   indication; MediaWiki:Common.js adds the .edfm-nav-current class to the
+   matching list item by comparing hrefs to the current URL. Orange is
+   reserved for exactly this kind of "important navigation / selected
+   state" per the colour system, which is why the rest of the sidebar is
+   deliberately muted rather than orange throughout (an all-orange sidebar
+   would both fight this indicator and read as visually dominant). */
+.edfm-nav-current > a {
+	color: var( --edfm-orange ) !important;
+	font-weight: 700;
+	border-left-color: var( --edfm-orange );
+	border-left-width: 3px;
+	background: var( --edfm-surface-1 );
+}
+.vector-menu-heading {
+	color: var( --edfm-text-dim );
+	font-weight: 700;
+	font-family: var( --edfm-mono );
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	font-size: var( --edfm-fs-utility );
+	border-left: 2px solid var( --edfm-orange );
+	padding-left: 0.5em;
+	margin-left: -0.5em;
+	margin-bottom: 0.4em;
+}
+
+/* ==========================================================================
+   3. TOP BAR -- two-tier chrome
+   ========================================================================== */
+/* Vector legacy's #mw-head naturally has ~2.5em of empty space above the
+   tabs row (core: `#left-navigation/#right-navigation { margin-top:2.5em }`),
+   originally reserved just for #p-personal to float in. Painting that same
+   box with a background gradient that stays transparent for that top
+   band and then switches to a surface colour for the tabs band creates a
+   real two-tier read -- "primary chrome" (personal tools/search, over the
+   page's own background) above "wiki authoring controls" (the tabs, on
+   their own distinct strip) below -- without touching #mw-head's own
+   position/width mechanics, which is the same fragile absolute-position
+   system the very first pass of this project had to debug carefully to
+   get the persistent sidebar working at all. Not worth re-risking that
+   for a background change. */
+#mw-head {
+	background-image: linear-gradient(
+		to bottom,
+		transparent 0,
+		transparent 2.35em,
+		var( --edfm-surface-2 ) 2.35em,
+		var( --edfm-surface-2 ) 100%
+	);
+	border-bottom: 1px solid var( --edfm-border );
+}
+#mw-page-base {
+	background-color: var( --edfm-bg-deep );
+	background-image: none;
+}
+#mw-head-base {
+	background-color: var( --edfm-bg-deep );
+	/* Polish pass: thinned from 2px -- at 2px this competed visually with
+	   the masthead's own orange marker/rule directly below it; a single
+	   thinner accent line still reads as "site identity colour" without
+	   the repetition. */
+	border-bottom: 1px solid var( --edfm-orange );
+}
+/* Personal tools (login/logout) and the search box are the "primary
+   chrome" tier -- pulled in by the same gutter used to centre the article,
+   so on wide screens they visually line up with the centred column
+   instead of hugging the browser edge, and given noticeably more visual
+   weight than the tabs below them. */
+#p-personal {
+	right: calc( 0.75em + var( --edfm-gutter ) );
+}
+#p-personal a {
+	color: var( --edfm-text-muted );
+	font-family: var( --edfm-mono );
+	font-size: var( --edfm-fs-sidebar );
+	padding: 0.3em 0.2em;
+}
+#p-personal a:hover {
+	color: var( --edfm-orange );
+}
+#right-navigation {
+	margin-right: var( --edfm-gutter );
+}
+#left-navigation {
+	margin-left: calc( var( --edfm-sidebar-clear ) + var( --edfm-gutter ) );
+}
+/* Polish pass: core caps this at `width:20vw; max-width:20em`, which read
+   as cramped next to the rest of the (now larger-scale) interface --
+   given more room on desktop, still capped so it can't dominate the bar. */
+.vector-search-box-inner {
+	width: 22vw;
+	max-width: 24em;
+}
+.vector-search-box-inner input,
+#searchInput {
+	background-color: var( --edfm-surface-3 );
+	color: var( --edfm-text );
+	border: 1px solid var( --edfm-border );
+	font-family: var( --edfm-mono );
+	font-size: var( --edfm-fs-sidebar );
+	padding: 0.5em 0.7em;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+#searchInput:focus {
+	border-color: var( --edfm-cyan );
+	box-shadow: 0 0 0 2px rgba( 66, 199, 217, 0.22 );
+	outline: none;
+}
+#searchInput::placeholder {
+	color: var( --edfm-text-dim );
+}
+/* Namespace tabs (Main Page / Discussion, left) and view tabs
+   (Read / Edit / View history, right) both use Vector legacy's
+   .vector-menu-tabs-legacy markup. Core skin CSS paints every tab `li`
+   with a gradient fading to white and forces the selected tab to pure
+   white -- neither is touched by recolouring the link text alone, which is
+   why these stayed light before this stylesheet covered the `li`
+   background too. Core also has an `a:visited` rule (higher specificity
+   than a plain `a` rule, since a pseudo-class counts the same as a class)
+   that reasserts a near-black "visited" colour meant for a white
+   background; since these tabs point at pages you've almost always
+   already visited, without an explicit `:visited` override here the text
+   goes dark-on-dark. This can't be caught by reading getComputedStyle() in
+   an automated check -- browsers deliberately report the *unvisited*
+   colour to JS for privacy reasons, so it only shows up on an actual
+   screen; verified with real rendered screenshots, including after
+   genuinely visiting the linked pages first.
+
+   These are the "wiki authoring controls" utility tier -- deliberately
+   smaller (--edfm-fs-utility) and quieter than personal-tools/search
+   above them, sitting on their own background strip (see #mw-head above).
+   Selected state stays orange (it's still real navigation, just
+   secondary); unselected rests dim so the *selected* tab is the one that
+   reads clearly. */
+.vector-menu-tabs-legacy li {
+	background-image: none;
+	background-color: transparent;
+}
+.vector-menu-tabs-legacy li.selected {
+	background-image: none;
+	background-color: var( --edfm-surface-1 );
+	/* Polish pass: a small underline makes the selected tab unambiguous at
+	   a glance instead of relying on the text colour change alone. */
+	box-shadow: inset 0 -2px 0 var( --edfm-orange );
+}
+.vector-menu-tabs-legacy li a,
+.vector-menu-tabs-legacy li a:visited {
+	background-color: transparent;
+	color: var( --edfm-text-dim );
+	font-family: var( --edfm-mono );
+	font-size: var( --edfm-fs-utility );
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	font-weight: 700;
+}
+.vector-menu-tabs-legacy li a:hover,
+.vector-menu-tabs-legacy li a:visited:hover {
+	color: var( --edfm-text );
+}
+.vector-menu-tabs-legacy li.selected a,
+.vector-menu-tabs-legacy li.selected a:visited {
+	color: var( --edfm-orange );
+}
+.vector-menu-tabs-legacy li.new a,
+.vector-menu-tabs-legacy li.new a:visited {
+	color: var( --edfm-link-new );
+}
+/* "More" actions dropdown (#p-cactions) sits in the same tab row; same
+   :visited gotcha applies to its menu items. */
+.vector-menu-dropdown .vector-menu-heading {
+	color: var( --edfm-text-dim );
+	font-family: var( --edfm-mono );
+	border-left: none;
+	padding-left: 8px;
+	margin-left: 0;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	font-size: var( --edfm-fs-utility );
+	font-weight: 700;
+}
+.vector-menu-dropdown .vector-menu-heading:hover,
+.vector-menu-dropdown .vector-menu-heading:focus {
+	color: var( --edfm-orange );
+}
+.vector-menu-dropdown .vector-menu-content {
+	background-color: var( --edfm-surface-3 );
+	border-color: var( --edfm-border );
+}
+.vector-menu-dropdown .vector-menu-content a,
+.vector-menu-dropdown .vector-menu-content a:visited {
+	color: var( --edfm-text-muted );
+	font-size: var( --edfm-fs-sidebar );
+}
+.vector-menu-dropdown .vector-menu-content li.selected a,
+.vector-menu-dropdown .vector-menu-content li.selected a:visited {
+	color: var( --edfm-orange );
+}
+.vector-menu-dropdown .vector-menu-content li:hover {
+	background-color: var( --edfm-surface-4 );
+}
+
+/* ==========================================================================
+   CONTENT / ARTICLE SURFACE
+   ========================================================================== */
+.mw-body,
+.parsoid-body {
+	background-color: var( --edfm-surface-1 );
+	color: var( --edfm-text );
+	border-color: var( --edfm-border );
+	font-family: var( --edfm-sans );
+}
+#content {
+	background-color: var( --edfm-surface-1 );
+}
+
+/* Global Frontier/unofficial-project disclaimer (rendered via $wgSiteNotice,
+   #siteNotice sits inside #content right before #firstHeading on every
+   page). Previously inherited plain prose styling and read like the start
+   of the article; restyled as a thin, quiet info line -- small text, a
+   bottom rule, no italic-paragraph treatment -- so it reads as global
+   utility chrome rather than article content, without moving or removing
+   it (still the very first thing in the article surface, still contains
+   the real "Full notice" link). */
+#siteNotice {
+	font-size: var( --edfm-fs-meta );
+	line-height: 1.5;
+	color: var( --edfm-text-dim );
+	font-style: normal;
+	padding-bottom: 0.7em;
+	margin-bottom: 1.4rem;
+	border-bottom: 1px solid var( --edfm-border-soft );
+}
+#siteNotice em, #siteNotice i {
+	color: var( --edfm-text-muted );
+	font-style: italic;
+}
+#siteNotice a {
+	color: var( --edfm-link-external );
+}
+#siteNotice a:hover {
+	color: var( --edfm-link-external-hover );
+}
+
+/* ==========================================================================
+   10. JUMP NAVIGATION (table of contents)
+   ========================================================================== */
+/* A compact navigation strip/tile-grid rather than a traditional TOC box
+   of small text links -- real MediaWiki anchors/markup untouched, this is
+   all presentation. "Contents" is kept in the DOM for screen readers/
+   no-JS/no-CSS fallback (more standard wording there anyway) and visually
+   replaced with "Jump to" via ::before on the wrapper, with the real
+   heading text hidden via font-size rather than display:none so it
+   remains in the accessibility tree. */
+#toc, .toc {
+	background: none;
+	border: none;
+	color: var( --edfm-text );
+	padding: 0;
+	margin: 1.8rem 0;
+}
+.toctitle {
+	position: relative;
+	margin-bottom: 0.7em;
+}
+.toctitle::before {
+	content: 'Jump to';
+	font-family: var( --edfm-mono );
+	font-size: var( --edfm-fs-meta );
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var( --edfm-orange );
+}
+/* Core ships `.toc h2 { font-size: 100%; ... }` (mediawiki.skinning/toc/
+   screen.less) at the exact same specificity (one class + one tag) as a
+   plain `.toctitle h2` rule -- same "tie that doesn't resolve the way
+   naive source order would suggest" gotcha documented elsewhere in this
+   file. #toc's own ID makes this one unambiguous instead of relying on
+   cascade order. */
+#toc .toctitle h2,
+.toc .toctitle h2 {
+	font-size: 0 !important;
+	line-height: 0;
+	margin: 0;
+	border: none;
+	padding: 0;
+	display: inline;
+}
+.toctitle h2::before,
+.toctitle h2::after {
+	content: none;
+}
+.toctogglelabel::before {
+	color: var( --edfm-text-dim );
+}
+/* Desktop: a real grid of clickable tiles (3 columns suits this site's
+   typical 5-8 top-level sections well: commonly 2-3 rows) instead of one
+   long line of small text. Each tile has its own surface, a visible
+   boundary via the accent rail (not a full border -- see "stop using a
+   border around everything"), and an obvious hover state. */
+.toc > ul {
+	display: grid;
+	grid-template-columns: repeat( 3, 1fr );
+	gap: 0.6rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.toc li {
+	margin: 0;
+}
+/* Polish pass: stacked number-above-label instead of side-by-side, so the
+   number reads as a distinct index mark (like a spec-sheet item number)
+   rather than just a coloured bullet next to text -- stronger hierarchy
+   per "still look somewhat like table cells". Whole tile stays one real
+   <a>, so it's a single click/focus target and keyboard tab stop either
+   way. */
+.toc a {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.25em;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 0.75em 0.95em;
+	background: var( --edfm-surface-3 );
+	border-left: 2px solid var( --edfm-border );
+	color: var( --edfm-text-muted );
+	text-decoration: none;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+.toc a:hover {
+	background: var( --edfm-surface-4 );
+	border-left-color: var( --edfm-cyan );
+	color: var( --edfm-text );
+	transform: translateY( -1px );
+}
+/* Nested sub-levels (rare on this site so far) drop back to a plain
+   indented block list inside their parent tile's grid cell rather than
+   trying to stay gridded themselves. */
+.toc ul ul {
+	grid-column: unset;
+	list-style: none;
+	margin: 0.3em 0 0 1.2em;
+	padding: 0;
+	display: block;
+}
+.toc ul ul a {
+	flex-direction: row;
+	align-items: center;
+	background: none;
+	border-left-width: 1px;
+	padding: 0.3em 0.6em;
+}
+.toc ul ul .tocnumber {
+	font-size: 0.85em;
+}
+.toc ul ul .toctext {
+	font-size: 0.85em;
+}
+.tocnumber {
+	color: var( --edfm-orange );
+	font-family: var( --edfm-mono );
+	font-weight: 700;
+	font-size: 1.3rem;
+	line-height: 1;
+}
+.toctext {
+	color: inherit;
+	font-size: 0.92rem;
+	line-height: 1.35;
+}
+/* Desktop (>1150px, comfortably fits 3 columns of readable tiles) ->
+   tablet (covers both the 768px and 1024px checkpoints this was reviewed
+   at) -> small mobile. Previously the tablet range was a narrow
+   801-1000px window and the general <=800px mobile breakpoint forced 1
+   column underneath it -- 768px fell into the 1-column mobile case and
+   1024px fell through to the 3-column desktop case with barely enough
+   room, cramming "Star systems, navigation and exploration" into a tile
+   not much wider than its longest word. Both are explicitly 2 columns
+   now. */
+@media ( max-width: 1150px ) {
+	.toc > ul {
+		grid-template-columns: repeat( 2, 1fr );
+	}
+}
+@media ( max-width: 560px ) {
+	.toc > ul {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ==========================================================================
+   6. PANELS / CALLOUTS, and 11. ARTICLE METADATA / STATUS MODULE
+   ========================================================================== */
+/* Deliberately NOT defined here. .edfm-box / .edfm-panel* / .edfm-status* /
+   .edfm-inline-flag / .edfm-related* are used exclusively by the
+   editorial templates (see Template:Article status, Template:Draft
+   warning, Template:Related articles, etc.), which already load
+   Template:EDFM style/styles.css themselves via <templatestyles>.
+   Defining the same class names in both this file and that one would
+   leave their relative precedence dependent on unclear/unstable ordering
+   between a ResourceLoader "site" stylesheet and a TemplateStyles-injected
+   <style> tag -- rather than rely on that, there is exactly one definition
+   of each, living in Template:EDFM style/styles.css. That file freely uses
+   the --edfm-* custom properties defined above; custom properties resolve
+   through the DOM regardless of which stylesheet declared vs references
+   them, so this split costs nothing. */
+
+/* ==========================================================================
+   7. TABLES (wikitables, and Special: pages' tables)
+   ========================================================================== */
+table.wikitable,
+table.mw-datatable {
+	background-color: var( --edfm-surface-2 );
+	color: var( --edfm-text );
+	border-color: var( --edfm-border );
+	font-size: var( --edfm-fs-body );
+}
+table.wikitable > tr > th,
+table.wikitable > * > tr > th {
+	background-color: var( --edfm-surface-3 );
+	color: var( --edfm-text );
+	border-color: var( --edfm-border );
+	font-family: var( --edfm-mono );
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	font-size: var( --edfm-fs-meta );
+	text-align: left;
+	padding: 0.6em 0.8em;
+}
+table.wikitable > tr > td,
+table.wikitable > * > tr > td {
+	border-color: var( --edfm-border-soft );
+	padding: 0.6em 0.8em;
+}
+/* Subtle alternating row treatment -- helps scanning wide/dense reference
+   tables without turning them into cards. */
+table.wikitable > tbody > tr:nth-child( even ),
+table.wikitable > * > tr:nth-child( even ) {
+	background-color: var( --edfm-surface-1 );
+}
+
+/* ==========================================================================
+   15. FOOTER
+   ========================================================================== */
+/* A real branded footer: a small wordmark line (pure CSS generated
+   content -- decorative branding only, redundant with the sidebar logo
+   already visible, so nothing load-bearing depends on it being
+   selectable), a top rule with more separation from the article above it,
+   and MediaWiki's real info/places/icon links laid out on a clean grid
+   with the badges aligned as a group rather than floating alone. */
+.mw-footer {
+	margin-left: calc( var( --edfm-sidebar-clear ) + var( --edfm-gutter ) );
+	margin-right: var( --edfm-gutter );
+	margin-top: 2.5rem;
+	padding-top: 1.6rem;
+	border-top: 1px solid var( --edfm-border );
+	display: grid;
+	grid-template-columns: 1fr auto;
+	grid-template-areas: "brand brand" "info icons" "places icons";
+	align-items: center;
+	column-gap: 2em;
+	row-gap: 0.4rem;
+}
+.mw-footer::before {
+	grid-area: brand;
+	content: 'EDFM // Elite Dangerous Field Manual';
+	font-family: var( --edfm-mono );
+	font-size: 0.85rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var( --edfm-text-muted );
+	margin-bottom: 0.5rem;
+}
+.mw-footer,
+.mw-footer li,
+#footer-info,
+#footer-info li {
+	color: var( --edfm-text-dim );
+	border-color: var( --edfm-border-soft );
+	font-size: var( --edfm-fs-meta );
+}
+#footer-info {
+	grid-area: info;
+	margin: 0;
+	line-height: 1.6;
+}
+#footer-places {
+	grid-area: places;
+	margin: 0;
+}
+/* Same "small uppercase label" treatment used for tags/meta text
+   elsewhere, so these read as deliberate EDFM navigation rather than
+   default MediaWiki footer links. */
+#footer-places li {
+	display: inline-block;
+	margin-right: 1.4em;
+}
+#footer-places a {
+	font-family: var( --edfm-mono );
+	font-weight: 700;
+	letter-spacing: 0.03em;
+	text-transform: uppercase;
+	font-size: 0.78rem;
+}
+/* A left rule ties the badges to the rest of the footer instead of
+   letting them read as detached/floating in their own space. */
+#footer-icons {
+	grid-area: icons;
+	align-self: center;
+	display: flex;
+	gap: 0.75em;
+	margin: 0;
+	padding-left: 1.6em;
+	border-left: 1px solid var( --edfm-border-soft );
+}
+#footer-icons img {
+	background: var( --edfm-text );
+	border-radius: 2px;
+}
+@media ( max-width: 640px ) {
+	.mw-footer {
+		grid-template-columns: 1fr;
+		grid-template-areas: "brand" "info" "places" "icons";
+	}
+	#footer-icons {
+		margin-top: 0.7em;
+		padding-left: 0;
+		border-left: none;
+		border-top: 1px solid var( --edfm-border-soft );
+		padding-top: 0.7em;
+	}
+}
+
+/* ==========================================================================
+   MISC MediaWiki UI chrome that ships with light backgrounds by default
+   ========================================================================== */
+.catlinks {
+	background: none !important;
+	border: none !important;
+	border-top: 1px solid var( --edfm-border-soft ) !important;
+	color: var( --edfm-text-dim );
+	font-size: var( --edfm-fs-meta );
+	padding: 0.9em 0 0 0 !important;
+	margin-top: 1.8rem !important;
+}
+div.thumbinner {
+	background-color: var( --edfm-surface-2 );
+	border-color: var( --edfm-border );
+}
+.thumbimage {
+	background-color: var( --edfm-surface-1 );
+	border-color: var( --edfm-border );
+}
+
+/* Code / preformatted text (syntaxhighlight uses its own Pygments theme,
+   set via $wgPygmentsStyle in LocalSettings.php; this covers plain
+   <pre>/<code> that isn't Pygments-highlighted). */
+pre, code, .mw-code {
+	background-color: var( --edfm-surface-2 );
+	color: var( --edfm-text );
+	border-color: var( --edfm-border );
+	font-family: var( --edfm-mono );
+}
+
+/* ==========================================================================
+   GENERIC INFOBOX -- see Template:Infobox
+   ========================================================================== */
+.edfm-infobox {
+	float: right;
+	clear: right;
+	width: 310px;
+	margin: 0 0 1.2em 1.2em;
+	border: 1px solid var( --edfm-border );
+	border-top: 2px solid var( --edfm-orange );
+	background: var( --edfm-surface-2 );
+	color: var( --edfm-text );
+	font-size: 0.92rem;
+}
+.edfm-infobox-title {
+	background: var( --edfm-orange );
+	color: var( --edfm-bg-deep );
+	font-weight: 700;
+	font-family: var( --edfm-mono );
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 0.5em 0.6em;
+	clip-path: polygon( 0 0, calc( 100% - 14px ) 0, 100% 14px, 100% 100%, 0 100% );
+}
+.edfm-infobox-image {
+	text-align: center;
+	padding: 0.6em;
+	border-bottom: 1px solid var( --edfm-border );
+}
+.edfm-infobox-row {
+	display: flex;
+	border-bottom: 1px solid var( --edfm-border-soft );
+	padding: 0.45em 0.7em;
+}
+.edfm-infobox-row:last-child {
+	border-bottom: none;
+}
+.edfm-infobox-label {
+	font-weight: 700;
+	font-family: var( --edfm-mono );
+	font-size: var( --edfm-fs-meta );
+	width: 40%;
+	flex-shrink: 0;
+	color: var( --edfm-cyan );
+}
+.edfm-infobox-value {
+	width: 60%;
+}
+@media ( max-width: 640px ) {
+	.edfm-infobox {
+		float: none;
+		width: auto;
+		margin: 1em 0;
+	}
+}
+
+/* ==========================================================================
+   14. MOBILE
+   ========================================================================== */
+/* Vector legacy has NO built-in responsive breakpoint at all (unlike
+   Vector 2022) -- its entire header region (#mw-head, tabs, search,
+   personal tools/login) is built with absolute positioning and floats
+   that all assume a fixed-width sidebar reserving 10-11em on the left,
+   AND the page's actual DOM order is content-then-navigation-then-footer
+   (the absolute positioning was doing double duty: both moving the header
+   visually to the top AND compensating for that DOM order). Simply
+   removing the positioning stacks things in DOM order, which reads oddly
+   on a phone (article text, then the nav/sidebar, then the footer).
+   Confirmed the actual DOM structure directly (not guessed): <body>'s
+   real children are #mw-page-base, #mw-head-base, #content,
+   #mw-navigation (which itself contains #mw-head then #mw-panel, already
+   in the right relative order), #footer. Since all four major regions are
+   direct children of <body>, flexbox `order` on <body> can reorder them
+   properly without needing to touch the DOM itself.
+   Result: header/search/tabs, then sidebar nav, then content, then
+   footer -- a plain stacked mobile layout, not a collapsible hamburger
+   menu, but a correct and readable order. */
+@media ( max-width: 800px ) {
+	body {
+		display: flex;
+		flex-direction: column;
+	}
+	/* #mw-head-base ships with `margin-top: -5em` in Vector legacy's own
+	   CSS -- a trick to sit it behind the absolutely-positioned header.
+	   Now that the header is a normal flex sibling, that negative margin
+	   drags everything after it upward. Neutralize both decorative
+	   strips. */
+	#mw-page-base,
+	#mw-head-base {
+		order: 0;
+		height: 0;
+		margin: 0;
+		min-height: 0;
+	}
+	#mw-navigation {
+		order: 1;
+	}
+	#content {
+		order: 2;
+	}
+	.mw-footer {
+		order: 3;
+	}
+
+	#mw-head {
+		position: static;
+		width: auto;
+		background-image: none;
+		background-color: var( --edfm-surface-2 );
+	}
+	#left-navigation,
+	#right-navigation {
+		float: none;
+		margin: 0 !important;
+		width: auto;
+		clear: both;
+	}
+	#left-navigation {
+		margin-top: 0 !important;
+	}
+	/* Core Vector legacy floats each tab/dropdown portlet
+	   (.vector-menu-tabs-legacy for Page/Discussion and Read/View
+	   source/View history, .vector-menu-dropdown for the More menu) AND
+	   floats every <li> inside their <ul>, with no wrapping at all -- at
+	   narrow widths the labels just overflow and overlap each other
+	   (confirmed with a real screenshot: "View source" and "More"
+	   overlapped instead of wrapping to a new line). Switching the
+	   portlets to inline-block and their tab lists to flex-wrap lets them
+	   reflow onto as many rows as needed instead. */
+	#left-navigation .vector-menu-tabs-legacy,
+	#right-navigation .vector-menu-tabs-legacy,
+	#right-navigation .vector-menu-dropdown {
+		float: none;
+		display: inline-block;
+		vertical-align: top;
+	}
+	.vector-menu-tabs-legacy ul {
+		float: none;
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.vector-menu-tabs-legacy li {
+		float: none;
+	}
+	#p-personal {
+		position: static;
+		text-align: right;
+		padding: 0.5em 1em;
+		margin: 0;
+		right: auto !important;
+		top: auto;
+	}
+	#p-personal ul {
+		padding-left: 0;
+	}
+	.vector-search-box {
+		float: none;
+		margin: 0.5em 1em;
+		display: block;
+	}
+	.vector-search-box-inner {
+		width: auto;
+		max-width: none;
+	}
+	#mw-panel {
+		position: static;
+		width: auto;
+		padding: 0.5em 1em;
+		float: none;
+		border-top: 1px solid var( --edfm-border );
+		border-bottom: 1px solid var( --edfm-border );
+	}
+	.mw-body,
+	#mw-data-after-content,
+	.mw-footer {
+		margin-left: 0 !important;
+		margin-right: 0 !important;
+		max-width: none;
+	}
+	.mw-body {
+		margin-top: 0;
+		border-width: 0;
+		padding: 1em;
+	}
+	.edfm-status-details {
+		grid-template-columns: 1fr;
+	}
+	/* .toc > ul column count is NOT overridden here -- the dedicated
+	   1150px/560px breakpoints above already cover every width down to
+	   the smallest phones; duplicating a rule here previously fought
+	   those (same specificity, this position in the cascade would have
+	   won and wrongly forced 1 column as low as 561px). */
+	#firstHeading {
+		font-size: 1.6rem;
+	}
+	.mw-body h2 {
+		margin-top: 2.25rem;
+	}
+	.edfm-eyebrow {
+		padding-top: 0.9em;
+	}
+}

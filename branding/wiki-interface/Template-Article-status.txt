@@ -1,0 +1,55 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-status edfm-status--{{#switch: {{{status|Needs review}}}
+ | Verified = positive
+ | Partially verified = positive
+ | Needs review = attention
+ | Draft = attention
+ | Upcoming = attention
+ | Historical = neutral
+ | Legacy only = neutral
+ | #default = attention
+}}">
+<div class="edfm-status-head">
+<span class="edfm-status-badge">{{{status|Needs review}}}</span>
+<span class="edfm-status-item">Mode: {{{mode|Live}}}</span>
+<span class="edfm-status-item">Version: {{{version|unspecified}}}</span>
+</div>
+<dl class="edfm-status-details">
+<div class="edfm-status-row"><dt>Last reviewed</dt><dd>{{{reviewed|never}}}</dd></div>
+<div class="edfm-status-row"><dt>Reviewer</dt><dd>{{{reviewer|none}}}</dd></div>
+<div class="edfm-status-row"><dt>Source quality</dt><dd>{{{source_quality|unassessed}}}</dd></div>
+<div class="edfm-status-row"><dt>Known uncertainty</dt><dd>{{{uncertainty|none noted}}}</dd></div>
+</dl>
+</div>{{#switch: {{{status|Needs review}}}
+| Verified = [[Category:Verified Articles]]
+| Partially verified = [[Category:Partially Verified Articles]]
+| Needs review = [[Category:Pages Needing Review]]
+| Draft = [[Category:Draft Articles]]
+| #default =
+}}{{#switch: {{{mode|Live}}}
+| Legacy = [[Category:Legacy Content]]
+| Historical = [[Category:Historical Content]]
+| #default =
+}}<noinclude>
+== Usage ==
+Place at the top of any gameplay-facing article. Status must be text, not
+colour alone — see [[Elite Dangerous Field Manual:Verification Policy]].
+Renders as a structured metadata module (2026-08-07 redesign): a badge/mode/
+version headline row, then a details grid for the remaining fields. The
+left accent colour is derived automatically from the status value (cyan for
+confirmed/verified, orange for needs-attention, neutral for historical/
+legacy) — see the colour rules in [[Template:EDFM style/styles.css]] — the
+text badge is always shown regardless, so nothing is colour-only.
+
+<pre>
+{{Article status
+ |status=Verified|Partially verified|Needs review|Draft|Historical|Legacy only|Upcoming
+ |mode=Live|Legacy|Both|Historical
+ |version=
+ |reviewed=
+ |reviewer=
+ |source_quality=
+ |uncertainty=
+}}
+</pre>
+[[Category:Templates]]
+</noinclude>

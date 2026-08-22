@@ -1,0 +1,5 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-info">'''Community observation''' (not officially confirmed by Frontier Developments): {{{1}}}</div><noinclude>
+== Usage ==
+<pre>{{Community observation|What players have observed}}</pre>
+[[Category:Templates]]
+</noinclude>

@@ -1,0 +1,22 @@
+* navigation
+** mainpage|mainpage-description
+** Start Here|Start Here
+** New Commander Roadmap|New Commander Roadmap
+** Returning Commander Overview|Returning Commander Overview
+* Reference
+** Field Procedures|Field Procedures
+** Game Reference|Game Reference
+** Ships and Equipment|Ships and Equipment
+** Engineering|Engineering
+* Game systems
+** Odyssey|Odyssey
+** Powerplay|Powerplay
+** Colonisation|Colonisation
+** Operations|Operations
+* About this project
+** Elite Dangerous Field Manual:About the Field Manual|About the Field Manual
+** Elite Dangerous Field Manual:Contributing|Contributing
+** Elite Dangerous Field Manual:Current Project Status|Project Status
+* SEARCH
+* TOOLBOX
+* LANGUAGES

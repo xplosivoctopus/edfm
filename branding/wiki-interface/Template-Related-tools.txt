@@ -1,0 +1,5 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-reference">'''Related tools:''' {{{1}}}</div><noinclude>
+== Usage ==
+<pre>{{Related tools|[https://example.invalid Tool name] &bull; ...}}</pre>
+[[Category:Templates]]
+</noinclude>

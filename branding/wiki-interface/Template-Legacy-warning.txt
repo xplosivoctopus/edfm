@@ -1,0 +1,5 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-warning">'''Legacy notice:''' This information relates to ''Elite Dangerous: Legacy'' and may not apply to the current Live game. See [[Elite Dangerous Field Manual:Verification Policy]] for how Live/Legacy differences are tracked.</div><noinclude>
+== Usage ==
+<pre>{{Legacy warning}}</pre>
+[[Category:Templates]]
+</noinclude>

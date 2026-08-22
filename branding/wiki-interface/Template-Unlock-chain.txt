@@ -1,0 +1,23 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-related">
+<div class="edfm-related-label">{{{label|Engineer Unlock Chain}}}</div>
+<div class="edfm-related-links"><span class="edfm-related-links">[[{{{1}}}]]</span>{{#if:{{{2|}}}| →&#32;<span class="edfm-related-links">[[{{{2}}}]]</span>}}{{#if:{{{3|}}}| →&#32;<span class="edfm-related-links">[[{{{3}}}]]</span>}}{{#if:{{{4|}}}| →&#32;<span class="edfm-related-links">[[{{{4}}}]]</span>}}{{#if:{{{5|}}}| →&#32;<span class="edfm-related-links">[[{{{5}}}]]</span>}}{{#if:{{{6|}}}| →&#32;<span class="edfm-related-links">[[{{{6}}}]]</span>}}</div>
+</div><noinclude>
+== Usage ==
+Shows a prerequisite chain between Engineers as a linked sequence, each
+name reusing [[Template:Related articles]]'s tile styling (a
+<code>&lt;span class="edfm-related-links"&gt;</code> wrapping a single
+wikilink renders identically to that template's link tiles, since the
+CSS targets any <code>a</code> inside a <code>.edfm-related-links</code>
+element — no new styling introduced). Up to 6 Engineers, earliest
+prerequisite first.
+
+<pre>{{Unlock chain|Engineer A|Engineer B|Engineer C}}</pre>
+
+'''Do not invent unlock relationships.''' Only use this template once a
+prerequisite chain has been confirmed against the live game — see
+[[Elite Dangerous Field Manual:Editorial Policy]]. Until then, an
+Engineer page's unlock-chain section should say the relationship hasn't
+been verified yet rather than transclude this template with a guess.
+
+[[Category:Templates]]
+</noinclude>

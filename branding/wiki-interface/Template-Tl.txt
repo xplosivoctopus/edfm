@@ -1,0 +1,18 @@
+<code>&#123;&#123;[[Template:{{{1}}}|{{{1}}}]]{{#if:{{{2|}}}|&#124;{{{2}}}}}{{#if:{{{3|}}}|&#124;{{{3}}}}}&#125;&#125;</code><noinclude>
+== Usage ==
+Formats a template name as inline code with a link to the template, for
+documentation pages that reference other templates.
+
+<pre>{{tl|Article status}}</pre>
+
+renders as {{tl|Article status}}. Optional extra positional parameters
+render as additional literal <code>|param</code> segments, e.g.
+<code><nowiki>{{tl|Infobox|name=}}</nowiki></code>.
+
+Pre-existing gap found and fixed 2026-08-07: [[Elite Dangerous Field
+Manual:Verification Policy]] already used <code><nowiki>{{tl|Article
+status}}</nowiki></code>, silently rendering as a red link the whole time
+because this template didn't exist yet.
+
+[[Category:Templates]]
+</noinclude>

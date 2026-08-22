@@ -1,0 +1,17 @@
+{{Related articles|label=Engineering Navigation|[[Engineering]] [[Engineering Blueprints]] [[Experimental Effects]] [[Engineers]] [[Engineering Materials]] [[Engineer Unlock Guide]]}}<noinclude>
+== Usage ==
+Place near the bottom of any Engineering-related article (module,
+blueprint, Experimental Effect, Engineer, or materials page) so a reader
+never has to backtrack to the main [[Engineering]] hub just to reach a
+sibling section. Fixed link set, no parameters — maintained in this one
+template rather than repeated on every page, so renaming or adding a hub
+later only means editing this page. See [[Elite Dangerous Field Manual:
+Engineering Architecture]] for the full Engineering page architecture.
+
+<pre>{{Engineering nav}}</pre>
+
+Reuses [[Template:Related articles]]'s tile styling with a custom label
+rather than introducing a second navigation component.
+
+[[Category:Templates]]
+</noinclude>

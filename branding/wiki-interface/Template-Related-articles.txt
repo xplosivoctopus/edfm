@@ -1,0 +1,21 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-related">
+<div class="edfm-related-label">{{{label|Related Field Manual Entries}}}</div>
+<div class="edfm-related-links">{{{1}}}</div>
+</div><noinclude>
+== Usage ==
+Renders as a row of individually-boxed link tiles. Each wikilink becomes
+its own tile with a trailing arrow — separate links with a plain space,
+not <code>&amp;bull;</code>, since spacing/gap between tiles is handled by
+CSS margins on each tile, not a separator character.
+
+<pre>{{Related articles|[[Page one]] [[Page two]]}}</pre>
+
+The label is optional and defaults to "Related Field Manual Entries" —
+override it for other uses of the same tile styling, e.g. a hub page's
+primary browse-navigation cards (added 2026-08-07 for the Engineering
+section, see [[Elite Dangerous Field Manual:Engineering Architecture]]):
+
+<pre>{{Related articles|label=Browse Engineering|[[Engineering Blueprints]] [[Experimental Effects]] [[Engineers]]}}</pre>
+
+[[Category:Templates]]
+</noinclude>

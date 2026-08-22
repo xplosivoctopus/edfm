@@ -1,0 +1,38 @@
+<templatestyles src="Template:Resource card/styles.css" /><div class="edfm-resource">
+<div class="edfm-resource-head"><span class="edfm-resource-name">[{{{url}}} {{{name}}}]</span>{{#if:{{{fullname|}}}|<span class="edfm-resource-fullname">{{{fullname}}}</span>}}</div>
+<p class="edfm-resource-desc">{{{description}}}</p>{{#if:{{{tag1|}}}|
+<div class="edfm-resource-tags">{{#if:{{{tag1|}}}|<span class="edfm-resource-tag">{{{tag1}}}</span>}}{{#if:{{{tag2|}}}|<span class="edfm-resource-tag">{{{tag2}}}</span>}}{{#if:{{{tag3|}}}|<span class="edfm-resource-tag">{{{tag3}}}</span>}}{{#if:{{{tag4|}}}|<span class="edfm-resource-tag">{{{tag4}}}</span>}}{{#if:{{{tag5|}}}|<span class="edfm-resource-tag">{{{tag5}}}</span>}}</div>}}
+</div><noinclude>
+== Usage ==
+Compact reference card for a single third-party tool/site/service --
+replaces the old "two-column wikitable" pattern for resource-listing
+pages such as [[Tools and Resources]]. Reuses the site's existing design
+tokens/link styling (see [[Template:Resource card/styles.css]]) rather
+than introducing new colours -- this is a new component within the
+existing EDFM theme, not a separate visual system.
+
+<pre>
+{{Resource card
+ |name=EDSM
+ |fullname=Elite Dangerous Star Map
+ |url=https://www.edsm.net/
+ |description=Community-maintained database of star systems and bodies, built from commanders' journal uploads.
+ |tag1=Star map|tag2=System data|tag3=Exploration
+}}
+</pre>
+
+'''Parameters:'''
+* <code>name</code> (required) -- the short/primary name, shown as the bold linked label.
+* <code>fullname</code> (optional) -- an expanded title shown smaller/muted next to the name (e.g. what an acronym stands for).
+* <code>url</code> (required) -- external URL; the name becomes a normal external link (site link colour + the standard small external-link arrow, not a custom icon).
+* <code>description</code> (required) -- one short paragraph. Don't invent capabilities the tool doesn't have -- if unsure, keep the description conservative.
+* <code>tag1</code> through <code>tag5</code> (all optional) -- short (1-3 word) category/capability labels shown as small chips under the description. Omit all of them for a plainer card (used for community/forum-type entries that aren't really "tools with capabilities").
+
+'''Multiple cards side by side:''' wrap a run of cards in
+<code>&lt;div class="edfm-resource-grid"&gt;...&lt;/div&gt;</code> to let them
+sit two-up on wide screens and collapse to one column on narrow ones. Only
+do this when the cards' descriptions are similar enough in length to stay
+readable side by side -- prefer stacking (no grid wrapper) otherwise.
+
+[[Category:Templates]]
+</noinclude>

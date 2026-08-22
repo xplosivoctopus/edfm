@@ -1,0 +1,20 @@
+<span class="edfm-section-number">{{{1}}}</span><span class="edfm-section-sep"> // </span><noinclude>
+== Usage ==
+Optional. Numbering major (<code>==</code>) section headings is a
+per-page/per-editor choice, not a site-wide default — most headings should
+keep using the automatic <code>// </code> prefix that
+[[MediaWiki:Common.css]] already adds to every <code>h2</code>. Use this
+template only on pages where explicit numbering genuinely helps navigation
+(e.g. a long reference page with many top-level sections):
+
+<pre>== {{Section number|01}}Star systems, navigation and exploration ==</pre>
+
+Renders as "<code>01 // Star systems, navigation and exploration</code>",
+with "01 //" in the orange technical accent and the rest of the heading in
+the normal bright heading colour. Using this template on a heading
+automatically suppresses the usual automatic "<code>// </code>" prefix on
+that heading (so they don't double up) — see the <code>:has()</code> rule
+in [[MediaWiki:Common.css]].
+
+[[Category:Templates]]
+</noinclude>

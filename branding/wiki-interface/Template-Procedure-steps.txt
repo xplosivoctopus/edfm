@@ -1,0 +1,12 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-info">'''Procedure'''
+{{{1}}}
+</div><noinclude>
+== Usage ==
+<pre>
+{{Procedure steps|
+# Step one
+# Step two
+}}
+</pre>
+[[Category:Templates]]
+</noinclude>

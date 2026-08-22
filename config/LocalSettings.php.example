@@ -1,0 +1,145 @@
+<?php
+# EDFM LocalSettings.php — REDACTED TEMPLATE. No real credentials or secret
+# keys. Mirrors the structure of a typical EDFM deployment so operators can see
+# what is configured without exposing live secrets. Regenerate real values with
+# `openssl rand -hex 32` / `openssl rand -hex 8` — never reuse these placeholders.
+
+if ( !defined( 'MEDIAWIKI' ) ) {
+	exit;
+}
+
+$wgSitename = "Elite Dangerous Field Manual";
+$wgMetaNamespace = "Elite_Dangerous_Field_Manual";
+
+$wgScriptPath = "";
+$wgServer = "https://edfieldmanual.com";
+$wgCanonicalServer = "https://edfieldmanual.com";
+$wgResourceBasePath = $wgScriptPath;
+$wgArticlePath = "/wiki/$1";
+$wgUsePathInfo = true;
+
+$wgLogos = [
+	'1x' => "$wgResourceBasePath/resources/assets/change-your-logo.svg",
+	'icon' => "$wgResourceBasePath/resources/assets/change-your-logo-icon.svg",
+];
+
+## Database settings
+$wgDBtype = "mysql";
+$wgDBserver = "localhost";
+$wgDBname = "edwiki";
+$wgDBuser = "edwiki_user";
+$wgDBpassword = "REPLACE_WITH_DATABASE_PASSWORD";
+$wgDBprefix = "";
+$wgDBssl = false;
+$wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
+$wgSharedTables[] = "actor";
+
+$wgMainCacheType = CACHE_ACCEL;   # APCu — fine for parser/localisation cache
+$wgSessionsInObjectCache = false; # APCu is per-worker; sessions must not use it
+
+$wgEnableUploads = true;
+$wgUseImageMagick = true;
+$wgImageMagickConvertCommand = "/usr/bin/convert";
+$wgUseInstantCommons = false;
+$wgPingback = false;
+
+$wgLanguageCode = "en";
+$wgLocaltimezone = "UTC";
+
+$wgSecretKey = "REPLACE_WITH_64_HEX_CHARS_openssl_rand_-hex_32";
+$wgAuthenticationTokenVersion = "1";
+$wgUpgradeKey = "REPLACE_WITH_16_HEX_CHARS_openssl_rand_-hex_8";
+
+$wgRightsPage = "";
+$wgRightsUrl = "";
+$wgRightsText = "";
+$wgRightsIcon = "";
+
+$wgDiff3 = "/usr/bin/diff3";
+
+$wgDefaultSkin = "vector"; # legacy/2011 -- deployment default
+wfLoadSkin( 'Vector' );
+
+wfLoadExtension( 'ParserFunctions' );
+wfLoadExtension( 'Cite' );
+wfLoadExtension( 'Scribunto' );
+wfLoadExtension( 'TemplateStyles' );
+wfLoadExtension( 'WikiEditor' );
+wfLoadExtension( 'CodeEditor' );
+wfLoadExtension( 'SyntaxHighlight_GeSHi' );
+wfLoadExtension( 'CategoryTree' );
+wfLoadExtension( 'PageImages' );
+wfLoadExtension( 'TextExtracts' );
+wfLoadExtension( 'MultimediaViewer' );
+wfLoadExtension( 'Gadgets' );
+wfLoadExtension( 'Nuke' );
+wfLoadExtension( 'ReplaceText' );
+wfLoadExtension( 'VisualEditor' );
+
+# =====================================================================
+# EDFM production hardening
+# =====================================================================
+
+$wgForceHTTPS = true;
+$wgCookieSecure = true;
+$wgCookieHttpOnly = true;
+$wgCookieSameSite = 'Lax';
+
+$wgGroupPermissions['*']['edit'] = false;
+$wgGroupPermissions['*']['createpage'] = false;
+$wgGroupPermissions['*']['createtalk'] = false;
+$wgGroupPermissions['*']['createaccount'] = false;
+$wgGroupPermissions['*']['upload'] = false;
+$wgGroupPermissions['user']['upload'] = false;
+$wgGroupPermissions['sysop']['upload'] = true;
+$wgGroupPermissions['sysop']['reupload'] = true;
+$wgGroupPermissions['sysop']['reupload-shared'] = true;
+$wgGroupPermissions['sysop']['editinterface'] = false;
+$wgGroupPermissions['interface-admin']['editinterface'] = true;
+$wgGroupPermissions['sysop']['interface-admin'] = false;
+$wgAddGroups['sysop'] = [ 'interface-admin' ];
+$wgRemoveGroups['sysop'] = [ 'interface-admin' ];
+
+$wgRawHtml = false;
+$wgAllowExternalImages = false;
+$wgAllowImageTag = false;
+
+$wgShowExceptionDetails = false;
+$wgShowDBErrorBacktrace = false;
+$wgShowHostnames = false;
+$wgDebugToolbar = false;
+$wgDevelopmentWarnings = false;
+
+$wgFileExtensions = [ 'png', 'jpg', 'jpeg', 'webp' ];
+$wgVerifyMimeType = true;
+$wgStrictFileExtensions = true;
+$wgCheckFileExtensions = true;
+$wgDisableUploadScriptChecks = false;
+$wgMaxUploadSize = 30 * 1024 * 1024;
+
+$wgRateLimits['edit']['ip'] = [ 8, 60 ];
+$wgRateLimits['upload']['ip'] = [ 8, 60 ];
+$wgRateLimits['mailpassword']['ip'] = [ 5, 3600 ];
+$wgPasswordAttemptThrottle = [
+	[ 'count' => 5, 'seconds' => 300 ],
+	[ 'count' => 20, 'seconds' => 86400 ],
+];
+
+$wgPasswordPolicy['policies']['sysop']['MinimalPasswordLength'] = 12;
+$wgPasswordPolicy['policies']['bureaucrat']['MinimalPasswordLength'] = 12;
+$wgPasswordPolicy['policies']['default']['MinimalPasswordLength'] = 10;
+
+$wgEnableEmail = false;
+$wgEnableUserEmail = false;
+$wgEmergencyContact = "admin@example.invalid";
+$wgPasswordSender = "admin@example.invalid";
+$wgEnotifUserTalk = false;
+$wgEnotifWatchlist = false;
+
+$wgJobRunRate = 0; # jobs run via the edwiki-jobrunner systemd timer
+
+$wgRobotPolicy = 'noindex,nofollow'; # remove at intentional launch — see launch-checklist.md
+
+$wgDefaultSkin = 'vector'; # legacy/2011
+$wgPygmentsStyle = 'monokai'; # dark theme -- see content-style-guide.md
+$wgAllowSiteCSSOnRestrictedPages = true; # so Common.css applies on login/etc too

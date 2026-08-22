@@ -1,0 +1,87 @@
+<noinclude>
+== Usage ==
+'''Subst-only skeleton, not a live template.''' Start a new Engineer
+article by creating the page (named after the Engineer, e.g.
+<code>[[Broo Tarquin]]</code> — plain page name, no namespace/subpage
+prefix, matching this wiki's existing convention) and, as the very first
+edit, entering:
+
+<pre>{{subst:New engineer page}}</pre>
+
+then saving and filling in the placeholders. Substituting (rather than
+transcluding live) means every Engineer page ends up as normal, freely
+editable wikitext — no hidden dependency on this template continuing to
+exist or match every Engineer's needs exactly the same way. See
+[[Elite Dangerous Field Manual:Engineering Architecture]] for the full
+Engineering page architecture and [[Broo Tarquin]] for a populated (but
+still placeholder-content) example.
+
+Do not invent System/Body/Facility/unlock information when filling this
+in — leave a field as "to be added" until it's been checked against the
+live game, per [[Elite Dangerous Field Manual:Editorial Policy]].
+[[Category:Templates]]
+</noinclude><includeonly>{{Article header|eyebrow=EDFM // Engineer|deck=To be added: a one-line summary of what this Engineer specialises in.}}
+{{Article status|status=Draft|mode=Both}}
+
+{{Infobox
+ |name = {{PAGENAME}}
+ |label1 = System |row1 = To be added
+ |label2 = Body |row2 = To be added
+ |label3 = Facility |row3 = To be added
+ |label4 = Region |row4 = To be added
+ |label5 = Allegiance |row5 = To be added
+ |label6 = Specialties |row6 = To be added
+ |label7 = Maximum engineering grades |row7 = To be added
+ |label8 = Prerequisite Engineer |row8 = To be added
+ |label9 = Discovery requirement |row9 = To be added
+ |label10 = Invitation requirement |row10 = To be added
+ |label11 = Unlock requirement |row11 = To be added
+}}
+
+== Overview ==
+Engineering data to be added.
+
+== Location ==
+* '''System:''' To be added
+* '''Body:''' To be added
+* '''Engineer base:''' To be added
+* '''Navigation notes:''' To be added
+
+== How to Discover This Engineer ==
+Engineering data to be added.
+
+== How to Receive an Invitation ==
+Engineering data to be added.
+
+== How to Unlock This Engineer ==
+Engineering data to be added.
+
+== Engineer Unlock Chain ==
+Not yet verified — see [[Template:Unlock chain]] for how to add this once confirmed.
+
+== Available Engineering ==
+{| class="wikitable"
+! Module !! Blueprint !! Maximum grade
+|-
+| colspan="3" | Engineering data to be added.
+|}
+
+== Experimental Effects ==
+Engineering data to be added.
+
+== Increasing Engineer Reputation ==
+Engineering data to be added.
+
+== Recommended Blueprint to Pin ==
+Editorial guidance to be added once this Engineer's blueprint catalogue is verified.
+
+== Related Engineers ==
+Engineering data to be added.
+
+== Related Guides ==
+{{Related articles|[[Engineering]] [[Engineer Unlock Guide]]}}
+
+{{Engineering nav}}
+
+[[Category:Engineers]]
+[[Category:Engineering]]</includeonly>

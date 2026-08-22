@@ -1,0 +1,12 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-warning">'''Common mistakes'''
+{{{1}}}
+</div><noinclude>
+== Usage ==
+<pre>
+{{Common mistakes|
+* Mistake one
+* Mistake two
+}}
+</pre>
+[[Category:Templates]]
+</noinclude>

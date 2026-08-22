@@ -1,0 +1,5 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-draft">'''Draft:''' This article is incomplete and has not been reviewed. Treat its contents with caution until it carries a [[Elite Dangerous Field Manual:Verification Policy|verification status]].</div><noinclude>
+== Usage ==
+<pre>{{Draft warning}}</pre>
+[[Category:Templates]]
+</noinclude>

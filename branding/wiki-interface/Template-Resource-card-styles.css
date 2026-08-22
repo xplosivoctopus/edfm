@@ -1,0 +1,179 @@
+/* Resource card component -- compact reference card for third-party
+   tools/sites/services (see Template:Resource card). Uses the site's
+   existing --edfm-* design tokens (defined once in MediaWiki:Common.css)
+   rather than introducing a second colour system.
+
+   2026-08-07 POLISH PASS: kept the pass-2 approach (no full border,
+   elevated surface + accent rail + corner-cut, custom arrow icon) and
+   refined it rather than redesigning it --
+   - stronger internal hierarchy between the resource name and its
+     expanded full name (full name now reads as a small technical label:
+     smaller, uppercase, letter-spaced, more separated vertically)
+   - the corner-cut is now paired with a small filled accent triangle
+     right at the notch so the motif actually registers instead of
+     blending into the dark background at a glance
+   - hover stays in the cyan family (brighter cyan + thicker rail)
+     instead of swapping to orange, since these cards are "reference/
+     link" content and cyan is that tier's colour throughout the rest of
+     the site -- swapping hue on hover sent a mixed signal
+   - hover shadow reduced (was a bit heavy for "extremely subtle")
+   - keyboard focus still gets a clear indicator via the site-wide
+     `a:focus-visible` outline rule in Common.css on the card's own link;
+     :focus-within (which would have mirrored the full :hover treatment
+     onto the card itself) is NOT used here because TemplateStyles'
+     selector sanitizer rejects it -- confirmed by testing, not assumed
+
+   The single/two/N-up column behaviour is NOT hard-coded per section --
+   it falls out of .edfm-resource-grid's `repeat(auto-fit, minmax(...))`
+   automatically: a lone card in a grid becomes the one available track
+   and fills it (full width), two cards split evenly, more wrap onto
+   additional rows. Tools and Resources now wraps every resource-card
+   section in this container (including the previously-standalone single
+   ones), not just the multi-card ones -- see that page's wikitext, not
+   this file, for that change.
+
+   The linked resource name reuses the site's normal external-link colour
+   (from MediaWiki:Common.css's `.mw-parser-output a.external` rule)
+   rather than redefining it here, per "use the site's link/accent system,
+   not bright orange for every name". */
+.edfm-resource {
+	position: relative;
+	background: var( --edfm-surface-3 );
+	border-left: 3px solid var( --edfm-cyan );
+	padding: 1.5em 1.75em;
+	margin: 1.4em 0;
+	clip-path: polygon( 0 0, calc( 100% - 14px ) 0, 100% 14px, 100% 100%, 0 100% );
+	max-width: 760px;
+	box-sizing: border-box;
+	transition: background-color 0.15s ease, border-left-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+/* The one recurring EDFM shape motif on this component: a small filled
+   triangle sitting exactly in the clipped corner, echoing the logo's
+   angular geometry. Low opacity, cyan by default so it doesn't compete
+   with the orange-reserved-for-navigation rule; single technique, not
+   layered with anything else. */
+.edfm-resource::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 14px;
+	height: 14px;
+	background: linear-gradient( 135deg, transparent 50%, var( --edfm-cyan ) 50% );
+	opacity: 0.6;
+	/* Note: no pointer-events here -- TemplateStyles' sanitizer doesn't
+	   allow that property. Not needed in practice: this sits in the
+	   card's empty top-right corner, past where the name/link text runs,
+	   so there's nothing under it to intercept clicks from. */
+	transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+.edfm-resource:hover {
+	background: var( --edfm-surface-4 );
+	border-left-color: var( --edfm-cyan );
+	border-left-width: 4px;
+	transform: translateY( -2px );
+	box-shadow: 0 3px 8px rgba( 0, 0, 0, 0.25 );
+}
+.edfm-resource:hover::before {
+	opacity: 1;
+}
+.edfm-resource:hover .edfm-resource-name a.external {
+	color: var( --edfm-link-external-hover );
+}
+.edfm-resource-head {
+	display: flex;
+	align-items: baseline;
+	flex-wrap: wrap;
+	column-gap: 0.7em;
+	row-gap: 0.3em;
+}
+.edfm-resource-name {
+	/* TemplateStyles' CSS sanitizer rejects var() specifically inside
+	   font-family (even though it's otherwise valid CSS) -- spelled out
+	   literally here to match --edfm-mono in MediaWiki:Common.css. */
+	font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'SF Mono', Menlo, 'Courier New', monospace;
+	font-size: 1.05rem;
+	font-weight: 700;
+	letter-spacing: 0.02em;
+	overflow-wrap: anywhere;
+}
+/* Swap the default MediaWiki external-link icon for a bigger, consistently
+   -aligned arrow that reads clearly at this larger name size. Core sets
+   the default icon via `.mw-parser-output a.external` at (0,2,1)
+   specificity (two classes + a tag); matching that shape here (plus the
+   card's own class, so it's scoped to just this component) keeps the
+   override unambiguous rather than depending on stylesheet order. */
+.edfm-resource-name a.external {
+	background-image: none !important;
+	padding-right: 0 !important;
+}
+.edfm-resource-name a.external::after {
+	content: '\2197';
+	display: inline-block;
+	margin-left: 0.3em;
+	font-weight: 400;
+}
+/* Full/expanded name now reads as its own small technical label rather
+   than a slightly-smaller second name sitting right next to the first --
+   uppercase, letter-spaced, on its own line by default (the flex-wrap
+   above naturally drops it to a second line whenever the name + full
+   name don't both fit on one, and forcing it here keeps that behaviour
+   consistent instead of depending on available width). */
+.edfm-resource-fullname {
+	flex-basis: 100%;
+	color: var( --edfm-text-dim );
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+.edfm-resource-desc {
+	margin: 0.7em 0 0 0;
+	color: var( --edfm-text-muted );
+	font-size: 1rem;
+	line-height: 1.6;
+}
+.edfm-resource-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5em;
+	margin-top: 1.1em;
+	padding-top: 0.9em;
+	border-top: 1px solid var( --edfm-border-soft );
+}
+.edfm-resource-tag {
+	font-family: 'JetBrains Mono', 'Fira Code', Consolas, 'SF Mono', Menlo, 'Courier New', monospace;
+	font-size: 0.72rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var( --edfm-text-dim );
+	background: var( --edfm-surface-2 );
+	padding: 0.2em 0.6em;
+}
+
+/* Wrapping container for resource cards -- used for EVERY resource-card
+   section on a page, not just multi-card ones (see the note up top): a
+   lone card becomes the grid's one track and spans full width, two split
+   evenly, more wrap onto further rows, all from the same rule. Equal-
+   height rows via grid's default align-items:stretch plus height:100% on
+   the card, so cards with slightly different description lengths still
+   line up. Cards should never visually touch -- a deliberately generous
+   1.4rem (~22px) gap. */
+.edfm-resource-grid {
+	display: grid;
+	grid-template-columns: repeat( auto-fit, minmax( 300px, 1fr ) );
+	gap: 1.4rem;
+}
+.edfm-resource-grid .edfm-resource {
+	max-width: none;
+	margin: 0;
+	height: 100%;
+}
+
+@media ( max-width: 640px ) {
+	.edfm-resource {
+		max-width: none;
+		padding: 1.3em 1.4em;
+	}
+}

@@ -1,0 +1,42 @@
+<noinclude>
+== Usage ==
+'''Subst-only skeleton, not a live template.''' Adds the Engineering
+section of a module article — the part covering which blueprints apply
+to a given module (weapon, core internal, optional internal, or utility
+module).
+
+'''Important:''' [[Ships and Equipment]] already claims
+<code>[[:Category:Modules]]</code> for general module articles (base
+stats, specifications). A module should have exactly '''one''' page
+covering both its general specs and its engineering options — don't
+create a second, engineering-only page for a module that already has (or
+will have) a general one. If the module's page doesn't exist yet, create
+it with this skeleton first and add general-specification sections above
+it later; if it already exists, add this skeleton's content to the
+bottom of that existing page instead of substituting a new one.
+
+<pre>{{subst:New engineering module page}}</pre>
+
+See [[Elite Dangerous Field Manual:Engineering Architecture]] and
+[[Multi-Cannon]] for a populated (but still placeholder-content) example.
+[[Category:Templates]]
+</noinclude><includeonly>== Engineering ==
+Short overview placeholder — engineering data to be added. (If this page
+already has general specification sections above this one, this heading
+marks where the engineering-specific content begins; if this is a brand
+new page, general specs can be added above this section later.)
+
+=== Available Engineering Blueprints ===
+{| class="wikitable"
+! Blueprint !! Maximum grade !! Effect summary !! Engineers offering it !! Compatible Experimental Effects
+|-
+| colspan="5" | Engineering data to be added.
+|}
+
+=== Related Engineering Guides ===
+{{Related articles|[[Engineering]] [[Engineering Blueprints]]}}
+
+{{Engineering nav}}
+
+[[Category:Modules]]
+[[Category:Engineering]]</includeonly>

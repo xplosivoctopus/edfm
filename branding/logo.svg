@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160" role="img" aria-label="Elite Dangerous Field Manual">
+  <title>Elite Dangerous Field Manual</title>
+  <!-- Original artwork for this project. Not the Elite Dangerous logo, no
+       Frontier branding, no proprietary fonts (system sans-serif only). -->
+  <polygon points="80,6 148,44 148,116 80,154 12,116 12,44"
+           fill="none" stroke="#ff8c1a" stroke-width="4"/>
+  <polygon points="80,26 130,54 130,106 80,134 30,106 30,54"
+           fill="none" stroke="#3ecbd6" stroke-width="2"/>
+  <!-- Corner tick marks: a restrained "instrument panel" touch, plain
+       geometry only, no glow/animation. -->
+  <path d="M80,6 L86,16 M80,6 L74,16" stroke="#ff8c1a" stroke-width="2" fill="none"/>
+  <path d="M148,44 L138,46 M148,44 L146,54" stroke="#ff8c1a" stroke-width="2" fill="none"/>
+  <path d="M148,116 L146,106 M148,116 L138,114" stroke="#ff8c1a" stroke-width="2" fill="none"/>
+  <path d="M80,154 L74,144 M80,154 L86,144" stroke="#ff8c1a" stroke-width="2" fill="none"/>
+  <path d="M12,116 L22,114 M12,116 L14,106" stroke="#ff8c1a" stroke-width="2" fill="none"/>
+  <path d="M12,44 L14,54 M12,44 L22,46" stroke="#ff8c1a" stroke-width="2" fill="none"/>
+  <text x="80" y="88" text-anchor="middle" font-family="'JetBrains Mono', 'Consolas', 'SF Mono', monospace"
+        font-size="32" font-weight="700" letter-spacing="1" fill="#ff8c1a">EDFM</text>
+  <line x1="46" y1="102" x2="114" y2="102" stroke="#3ecbd6" stroke-width="2"/>
+</svg>

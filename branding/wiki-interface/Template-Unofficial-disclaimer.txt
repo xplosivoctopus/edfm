@@ -1,0 +1,5 @@
+<templatestyles src="Template:EDFM style/styles.css" /><div class="edfm-panel edfm-panel-reference">''Elite Dangerous Field Manual'' is an unofficial community project and is not affiliated with or endorsed by Frontier Developments plc. ''Elite Dangerous'' and related names, marks, and assets are the property of their respective owners. See [[Elite Dangerous Field Manual:Legal and Trademark Notice]] for details.</div><noinclude>
+== Usage ==
+<pre>{{Unofficial disclaimer}}</pre>
+[[Category:Templates]]
+</noinclude>

@@ -1,0 +1,76 @@
+<noinclude>
+== Usage ==
+'''Subst-only skeleton, not a live template.''' Start a new Engineering
+blueprint article by creating the page (named after the blueprint, e.g.
+<code>[[Overcharged]]</code> — plain page name, matching this wiki's
+existing convention) and, as the very first edit, entering:
+
+<pre>{{subst:New blueprint page}}</pre>
+
+then saving and filling in the placeholders. One blueprint page covers
+the blueprint as a concept across every module it applies to — don't
+create per-module duplicates (e.g. no separate "Overcharged (Multi-Cannon)"
+page); list every compatible module in the Compatible Modules section of
+this single page instead. See [[Elite Dangerous Field Manual:Engineering
+Architecture]] and [[Overcharged]] for a populated (but still
+placeholder-content) example.
+
+Not every blueprint has grades 1 through 5 — the Grade Comparison table
+below includes all five rows as a starting scaffold; delete any grade
+rows that don't apply once verified, rather than leaving guessed data in
+place of a deleted row.
+[[Category:Templates]]
+</noinclude><includeonly>{{Article header|eyebrow=EDFM // Engineering Blueprint|deck=To be added: a one-line summary of what this blueprint changes.}}
+{{Article status|status=Draft|mode=Both}}
+
+== Overview ==
+Engineering data to be added.
+
+== Advantages ==
+Engineering data to be added.
+
+== Disadvantages ==
+Engineering data to be added.
+
+== Grade Comparison ==
+{| class="wikitable"
+! Grade !! Attribute changes !! Engineering cost / materials
+|-
+| 1 || Engineering data to be added. || Engineering data to be added.
+|-
+| 2 || Engineering data to be added. || Engineering data to be added.
+|-
+| 3 || Engineering data to be added. || Engineering data to be added.
+|-
+| 4 || Engineering data to be added. || Engineering data to be added.
+|-
+| 5 || Engineering data to be added. || Engineering data to be added.
+|}
+Delete rows for grades this blueprint doesn't have once verified.
+
+== Compatible Modules ==
+Engineering data to be added.
+
+== Engineers ==
+{| class="wikitable"
+! Engineer !! Maximum grade offered
+|-
+| colspan="2" | Engineering data to be added.
+|}
+
+== Compatible Experimental Effects ==
+Engineering data to be added.
+
+== Materials Required ==
+Engineering data to be added.
+
+== Recommended Uses ==
+Editorial guidance to be added once this blueprint's effects are verified.
+
+== Related Guides ==
+{{Related articles|[[Engineering]] [[Engineering Blueprints]]}}
+
+{{Engineering nav}}
+
+[[Category:Engineering Blueprints]]
+[[Category:Engineering]]</includeonly>

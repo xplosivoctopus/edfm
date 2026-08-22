@@ -1,0 +1,56 @@
+<noinclude>
+== Usage ==
+'''Subst-only skeleton, not a live template.''' Start a new Experimental
+Effect article by creating the page (named after the effect, e.g.
+<code>[[Thermal Vent]]</code> — plain page name, matching this wiki's
+existing convention) and, as the very first edit, entering:
+
+<pre>{{subst:New experimental effect page}}</pre>
+
+then saving and filling in the placeholders. One page per effect,
+covering every compatible module/blueprint combination — don't create
+per-module duplicates. See [[Elite Dangerous Field Manual:Engineering
+Architecture]] and [[Thermal Vent]] for a populated (but still
+placeholder-content) example.
+[[Category:Templates]]
+</noinclude><includeonly>{{Article header|eyebrow=EDFM // Experimental Effect|deck=To be added: a one-line summary of what this Experimental Effect does.}}
+{{Article status|status=Draft|mode=Both}}
+
+== What It Does ==
+Engineering data to be added.
+
+== Advantages ==
+Engineering data to be added.
+
+== Disadvantages / Tradeoffs ==
+Engineering data to be added.
+
+== Compatible Modules ==
+Engineering data to be added.
+
+== Compatible Blueprints ==
+Engineering data to be added.
+
+== Engineers Offering It ==
+{| class="wikitable"
+! Engineer !! Notes
+|-
+| colspan="2" | Engineering data to be added.
+|}
+
+== Engineering Requirements ==
+Engineering data to be added.
+
+== Recommended Uses ==
+Editorial guidance to be added once this effect's behaviour is verified.
+
+== Related Effects ==
+Engineering data to be added.
+
+== Related Guides ==
+{{Related articles|[[Engineering]] [[Experimental Effects]]}}
+
+{{Engineering nav}}
+
+[[Category:Experimental Effects]]
+[[Category:Engineering]]</includeonly>
