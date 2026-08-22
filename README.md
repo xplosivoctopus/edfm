@@ -17,3 +17,10 @@ Included here:
 
 Live deployments must provide their own MediaWiki installation, database,
 secrets, web-server configuration, and private runtime settings.
+## Continuity
+
+This repository preserves the EDFM source/config-example layer. Current public wiki content is archived separately in `xplosivoctopus/edfm-content`. See:
+
+- `docs/continuity.md`
+- `docs/exclusions.md`
+
