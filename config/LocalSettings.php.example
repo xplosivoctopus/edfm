@@ -1,7 +1,8 @@
 <?php
 # EDFM LocalSettings.php — REDACTED TEMPLATE. No real credentials or secret
-# keys. Mirrors the structure of a typical EDFM deployment so operators can see
-# what is configured without exposing live secrets. Regenerate real values with
+# keys. Mirrors the structure of the deployed /path/to/mediawiki/LocalSettings.php
+# (root:www-data, 0640) so a future operator can see what's configured and why
+# without ever having access to the live secrets. Regenerate real values with
 # `openssl rand -hex 32` / `openssl rand -hex 8` — never reuse these placeholders.
 
 if ( !defined( 'MEDIAWIKI' ) ) {
@@ -35,7 +36,7 @@ $wgDBTableOptions = "ENGINE=InnoDB, DEFAULT CHARSET=binary";
 $wgSharedTables[] = "actor";
 
 $wgMainCacheType = CACHE_ACCEL;   # APCu — fine for parser/localisation cache
-$wgSessionsInObjectCache = false; # APCu is per-worker; sessions must not use it
+$wgSessionsInObjectCache = false; # see security-hardening.md: APCu is per-worker, sessions must not use it
 
 $wgEnableUploads = true;
 $wgUseImageMagick = true;
@@ -57,7 +58,7 @@ $wgRightsIcon = "";
 
 $wgDiff3 = "/usr/bin/diff3";
 
-$wgDefaultSkin = "vector"; # legacy/2011 -- deployment default
+$wgDefaultSkin = "vector"; # legacy/2011 -- see architecture.md for why
 wfLoadSkin( 'Vector' );
 
 wfLoadExtension( 'ParserFunctions' );
@@ -77,7 +78,7 @@ wfLoadExtension( 'ReplaceText' );
 wfLoadExtension( 'VisualEditor' );
 
 # =====================================================================
-# EDFM production hardening
+# EDFM production hardening — see docs/security-hardening.md
 # =====================================================================
 
 $wgForceHTTPS = true;

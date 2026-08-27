@@ -12,9 +12,9 @@ import urllib.error
 import urllib.request
 
 BASE = "https://edfieldmanual.com"
-GA_SRC = "googletagmanager.com/gtag/js?id=GAID_PLACEHOLDER"
-GA_CFG = "gtag('config','GAID_PLACEHOLDER'"
-GA_META = 'name="edfm-ga4-measurement-id" content="GAID_PLACEHOLDER"'
+GA_SRC = "googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID_PLACEHOLDER"
+GA_CFG = "gtag('config','GA_MEASUREMENT_ID_PLACEHOLDER'"
+GA_META = 'name="edfm-ga4-measurement-id" content="GA_MEASUREMENT_ID_PLACEHOLDER"'
 
 CASES = [
     ("/wiki/Main_Page", True, "public article"),

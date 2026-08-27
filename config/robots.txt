@@ -1,6 +1,6 @@
 # Elite Dangerous Field Manual — PRE-LAUNCH state.
 # The site is still being built out and is intentionally not ready for
-# search engine indexing yet. See docs/launch-checklist.md for
+# search engine indexing yet. See /path/to/edfm/docs/launch-checklist.md for
 # the exact steps to remove this restriction at intentional launch.
 User-agent: *
 Disallow: /
