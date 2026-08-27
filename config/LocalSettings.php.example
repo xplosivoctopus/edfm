@@ -139,7 +139,7 @@ $wgEnotifWatchlist = false;
 
 $wgJobRunRate = 0; # jobs run via the edwiki-jobrunner systemd timer
 
-$wgRobotPolicy = 'noindex,nofollow'; # remove at intentional launch — see launch-checklist.md
+# Public launch: leave $wgRobotPolicy unset so MediaWiki uses its default index,follow behavior.
 
 $wgDefaultSkin = 'vector'; # legacy/2011
 $wgPygmentsStyle = 'monokai'; # dark theme -- see content-style-guide.md
