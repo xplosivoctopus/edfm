@@ -7,7 +7,7 @@
  * directly), so this runs as a separate step from generate-sitemap.sh
  * right after it.
  */
-$IP = '/path/to/mediawiki';
+$IP = getenv( 'MW_INSTALL_PATH' ) ?: '/path/to/mediawiki';
 require_once "$IP/maintenance/Maintenance.php";
 
 class EdfmFilterSitemapNoindex extends Maintenance {

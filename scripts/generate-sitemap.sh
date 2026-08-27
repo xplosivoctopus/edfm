@@ -21,5 +21,5 @@ php "$WIKI_ROOT/maintenance/run.php" generateSitemap \
 # no hook point) -- strip EDFM-noindexed pages (true placeholders marked
 # via {{SEO|noindex=yes}} / {{Article status|...|noindex=yes}}) out as a
 # separate post-processing step (2026-08-19 SEO pass).
-php "$WIKI_ROOT/maintenance/run.php" /path/to/edfm/scripts/filterSitemapNoindex.php --dir "$OUT_DIR"
+php "$WIKI_ROOT/maintenance/run.php" "${EDFM_SOURCE_ROOT:-/path/to/edfm}/scripts/filterSitemapNoindex.php" --dir "$OUT_DIR"
 find "$OUT_DIR" -type f -name 'sitemap*.xml' -exec chmod 0644 {} +

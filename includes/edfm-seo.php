@@ -10,7 +10,8 @@
  * Template:SEO for editors) so pages can define their own SEO title,
  * description, indexability, and social image instead of only ever getting
  * the mechanical auto-generated versions below. No SEO extension (WikiSEO or
- * otherwise) was already installed.
+ * otherwise) was already installed -- checked Special:Version and
+ * extensions/ before building this; see the SEO-pass report for that check.
  */
 
 if ( !defined( 'MEDIAWIKI' ) ) {
