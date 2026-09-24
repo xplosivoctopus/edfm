@@ -130,8 +130,13 @@ $wgPasswordPolicy['policies']['sysop']['MinimalPasswordLength'] = 12;
 $wgPasswordPolicy['policies']['bureaucrat']['MinimalPasswordLength'] = 12;
 $wgPasswordPolicy['policies']['default']['MinimalPasswordLength'] = 10;
 
-$wgEnableEmail = false;
-$wgEnableUserEmail = false;
+$wgEnableEmail = true; // Required by core Special:ChangeEmail.
+$wgEnableUserEmail = false; // Keep user-to-user email disabled.
+$wgEmailAuthentication = false; // No SMTP; store addresses without confirmation.
+$wgPasswordResetRoutes = [ 'username' => false, 'email' => false ];
+$wgHooks['EchoAbortEmailNotification'][] = static function (): bool {
+	return false;
+};
 $wgEmergencyContact = "admin@example.invalid";
 $wgPasswordSender = "admin@example.invalid";
 $wgEnotifUserTalk = false;
